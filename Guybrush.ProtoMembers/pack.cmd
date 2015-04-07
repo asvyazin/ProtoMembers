@@ -1,0 +1,1 @@
+nuget pack %~dp0Guybrush.ProtoMembers.nuspec

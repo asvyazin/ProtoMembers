@@ -1,0 +1,7 @@
+*.sln.cache
+*.user
+*.suo
+*.nupkg
+bin
+obj
+packages
