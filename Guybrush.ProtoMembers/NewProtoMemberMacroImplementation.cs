@@ -7,6 +7,7 @@ using JetBrains.Metadata.Reader.Impl;
 using JetBrains.ReSharper.Feature.Services.LiveTemplates.Hotspots;
 using JetBrains.ReSharper.Feature.Services.LiveTemplates.Macros;
 using JetBrains.ReSharper.LiveTemplates.CSharp.Macros;
+using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -18,13 +19,17 @@ namespace Guybrush.ProtoMembers
 	[MacroImplementation(Definition = typeof(NewProtoMemberMacroDefinition), ScopeProvider = typeof(CSharpImpl))]
 	public class NewProtoMemberMacroImplementation: SimpleMacroImplementation
 	{
+		private readonly ILanguageManager languageManager;
 		private static readonly IClrTypeName ProtoMemberTypeName = new ClrTypeName("ProtoBuf.ProtoMemberAttribute");
+
+		public NewProtoMemberMacroImplementation(ILanguageManager languageManager)
+		{
+			this.languageManager = languageManager;
+		}
 
 		public override string EvaluateQuickResult([NotNull] IHotspotContext context)
 		{
-			if (CSharpLanguage.Instance == null)
-				throw new InvalidOperationException("Could not get CSharpLanguage");
-			var macroUtil = MacroUtil.GetMacroUtil(context);
+			var macroUtil = languageManager.GetService<IMacroUtil, CSharpLanguage>();
 			if (macroUtil == null)
 				throw new InvalidOperationException("Could not get MacroUtil");
 			var currentExpression = macroUtil.AsExpression(context.ExpressionRange.GetText(), context);
