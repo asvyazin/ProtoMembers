@@ -9,7 +9,7 @@ namespace Guybrush.ProtoMembers
 	{
 		public override string GetPlaceholder(IDocument document, IEnumerable<IMacroParameterValue> parameters)
 		{
-			return "1";
+			return "0";
 		}
 	}
 }

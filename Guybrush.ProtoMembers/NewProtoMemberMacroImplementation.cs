@@ -9,18 +9,20 @@ using JetBrains.ReSharper.Feature.Services.LiveTemplates.Macros;
 using JetBrains.ReSharper.LiveTemplates.CSharp.Macros;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
-using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve.Managed;
-using JetBrains.ReSharper.Psi.Resolve.Managed;
+using JetBrains.Util;
+using JetBrains.Util.Logging;
 
 namespace Guybrush.ProtoMembers
 {
-	[MacroImplementation(Definition = typeof(NewProtoMemberMacroDefinition), ScopeProvider = typeof(CSharpImpl))]
-	public class NewProtoMemberMacroImplementation: SimpleMacroImplementation
+	[MacroImplementation(Definition = typeof (NewProtoMemberMacroDefinition), ScopeProvider = typeof (CSharpImpl))]
+	public class NewProtoMemberMacroImplementation : SimpleMacroImplementation
 	{
-		private readonly ILanguageManager languageManager;
+		private static readonly ILogger Log = Logger.GetLogger(typeof (NewProtoMemberMacroImplementation));
+
 		private static readonly IClrTypeName ProtoMemberTypeName = new ClrTypeName("ProtoBuf.ProtoMemberAttribute");
+
+		private readonly ILanguageManager languageManager;
 
 		public NewProtoMemberMacroImplementation(ILanguageManager languageManager)
 		{
@@ -44,31 +46,34 @@ namespace Guybrush.ProtoMembers
 
 		private static int GetMaxProtoMemberTag([NotNull] IClassLikeDeclaration declaration)
 		{
-			var resolveContext = new UniversalContext(declaration);
 			return GetProtoMemberAttributes(declaration)
-				.Select(a => GetTagFromProtoMember(a, resolveContext))
+				.Select(GetTagFromProtoMember)
 				.Max()
 				.GetValueOrDefault(0);
 		}
 
-		private static int? GetTagFromProtoMember([NotNull] IAttribute attribute, [NotNull] IResolveContext resolveContext)
+		private static int? GetTagFromProtoMember(IAttributeInstance attribute)
 		{
-			var tagExpression = attribute.ConstructorArgumentExpressions.FirstOrDefault(
-				arg => arg.IsConstantValue(resolveContext) && arg.ConstantValue.IsInteger());
-			if (tagExpression == null)
+			var tagParameter = attribute.PositionParameter(0);
+			if (!tagParameter.IsConstant)
 				return null;
-			return Convert.ToInt32(tagExpression.ConstantValue.Value);
+			return Convert.ToInt32(tagParameter.ConstantValue.Value);
 		}
 
 		[NotNull]
-		private static IEnumerable<IAttribute> GetProtoMemberAttributes([NotNull] IClassLikeDeclaration declaration)
+		private static IEnumerable<IAttributeInstance> GetProtoMemberAttributes([NotNull] IClassLikeDeclaration declaration)
 		{
-			return declaration.PropertyDeclarations.SelectMany(p => p.Attributes.Where(IsProtoMemberAttribute));
+			return GetProtoMemberAttributes(declaration.DeclaredElement)
+				.Concat(declaration.SuperTypes
+					.Select(t => t.GetTypeElement())
+					.Where(x => x != null)
+					.SelectMany(GetProtoMemberAttributes));
 		}
 
-		private static bool IsProtoMemberAttribute([NotNull] IAttribute attribute)
+		private static IEnumerable<IAttributeInstance> GetProtoMemberAttributes(ITypeElement classLikeType)
 		{
-			return attribute.GetAttributeInstance().GetClrName().Equals(ProtoMemberTypeName);
+			Log.Info("Getting ProtoMember attributes from {0}", classLikeType);
+			return classLikeType.Properties.SelectMany(p => p.GetAttributeInstances(ProtoMemberTypeName, true));
 		}
 	}
 }
