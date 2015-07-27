@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{90CDA6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guybrush.ProtoMembers", "Guybrush.ProtoMembers\Guybrush.ProtoMembers.csproj", "{31A3AB10-E11B-4B7B-A536-0DF264C5EEC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guybrush.ProtoMembers.Tests", "Guybrush.ProtoMembers.Tests\Guybrush.ProtoMembers.Tests.csproj", "{1BAE67F0-0726-4A18-AABD-F4754C3D5EC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{31A3AB10-E11B-4B7B-A536-0DF264C5EEC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31A3AB10-E11B-4B7B-A536-0DF264C5EEC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31A3AB10-E11B-4B7B-A536-0DF264C5EEC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BAE67F0-0726-4A18-AABD-F4754C3D5EC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BAE67F0-0726-4A18-AABD-F4754C3D5EC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BAE67F0-0726-4A18-AABD-F4754C3D5EC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BAE67F0-0726-4A18-AABD-F4754C3D5EC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
