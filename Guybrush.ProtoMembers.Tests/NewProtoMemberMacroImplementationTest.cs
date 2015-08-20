@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JetBrains.ReSharper.Feature.Services.LiveTemplates.Macros;
 using JetBrains.ReSharper.FeaturesTestFramework.LiveTemplates;
 using NUnit.Framework;
@@ -7,11 +6,11 @@ using NUnit.Framework;
 namespace Guybrush.ProtoMembers.Tests
 {
 	[TestFixture]
-	public class NewProtoMemberMacroImplementationTest: MacroImplTestBase
+	public class NewProtoMemberMacroImplementationTest : MacroImplTestBase
 	{
 		protected override IMacroImplementation GetMacro(IEnumerable<IMacroParameterValueNew> parameters)
 		{
-			throw new NotImplementedException();
+			return new NewProtoMemberMacroImplementation(LanguageManager);
 		}
 
 		[Test]
