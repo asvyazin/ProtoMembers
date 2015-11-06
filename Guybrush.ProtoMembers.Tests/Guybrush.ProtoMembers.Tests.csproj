@@ -138,7 +138,7 @@
   <ItemGroup>
     <Compile Include="NewProtoMemberMacroImplementationTest.cs" />
     <Compile Include="ProtoMembersTestEnvironmentAssembly.cs" />
-    <Content Include="test\data\NewProtoMemberMacroImplementationTest\test1.cs" />
+    <None Include="test\data\NewProtoMemberMacroImplementationTest\test1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Guybrush.ProtoMembers\Guybrush.ProtoMembers.csproj">
@@ -149,6 +149,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="test\data\NewProtoMemberMacroImplementationTest\test1.cs.gold" />
     <None Include="test\data\nuget.config" />
   </ItemGroup>
   <ItemGroup>

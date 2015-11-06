@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.Metadata.Reader.Impl;
@@ -23,10 +24,13 @@ namespace Guybrush.ProtoMembers
 		private static readonly IClrTypeName ProtoMemberTypeName = new ClrTypeName("ProtoBuf.ProtoMemberAttribute");
 
 		private readonly ILanguageManager languageManager;
+		private readonly IMacroParameterValueNew tagArgument;
 
-		public NewProtoMemberMacroImplementation(ILanguageManager languageManager)
+		public NewProtoMemberMacroImplementation(ILanguageManager languageManager, [Optional] MacroParameterValueCollection arguments)
 		{
+			Log.Info("Creating NewProtoMemberMacroImplementation, arguments: [{0}]", string.Join(", ", (arguments ?? new MacroParameterValueCollection()).Select(x => x.GetValue())));
 			this.languageManager = languageManager;
+			tagArgument = arguments.OptionalFirstOrDefault();
 		}
 
 		public override string EvaluateQuickResult([NotNull] IHotspotContext context)
@@ -34,7 +38,7 @@ namespace Guybrush.ProtoMembers
 			var macroUtil = languageManager.GetService<IMacroUtil, CSharpLanguage>();
 			if (macroUtil == null)
 				throw new InvalidOperationException("Could not get MacroUtil");
-			var currentExpression = macroUtil.AsExpression(context.ExpressionRange.GetText(), context);
+			var currentExpression = macroUtil.AsExpression(tagArgument.GetValue(), context);
 			if (currentExpression == null)
 				throw new InvalidOperationException("Could not get current expression");
 			var classDeclaration = currentExpression.GetContainingNode<IClassLikeDeclaration>();

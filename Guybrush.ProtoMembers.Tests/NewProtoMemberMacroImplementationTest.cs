@@ -10,7 +10,7 @@ namespace Guybrush.ProtoMembers.Tests
 	{
 		protected override IMacroImplementation GetMacro(IEnumerable<IMacroParameterValueNew> parameters)
 		{
-			return new NewProtoMemberMacroImplementation(LanguageManager);
+			return new NewProtoMemberMacroImplementation(LanguageManager, parameters.ToParameters());
 		}
 
 		[Test]
