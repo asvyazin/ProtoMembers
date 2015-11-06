@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{90CDA624-05AE-45C4-A357-5EBD2B07E388}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guybrush.ProtoMembers", "Guybrush.ProtoMembers\Guybrush.ProtoMembers.csproj", "{31A3AB10-E11B-4B7B-A536-0DF264C5EEC8}"
 EndProject

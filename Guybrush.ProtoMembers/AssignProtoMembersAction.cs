@@ -52,7 +52,7 @@ namespace Guybrush.ProtoMembers
 				var argumentExpression = protoMemberAttribute.ConstructorArgumentExpressions.FirstOrDefault(arg => arg.IsConstantValue(resolveContext) && arg.ConstantValue.IsInteger());
 				if (argumentExpression == null)
 					continue;
-				var newIdExpression = factory.CreateExpressionByConstantValue(new ConstantValue(currentId++, dataProvider.PsiModule, declaration.GetResolveContext()));
+				var newIdExpression = factory.CreateExpressionByConstantValue(new ConstantValue(currentId++, dataProvider.PsiModule));
 				if (newIdExpression != null)
 				{
 					using (declaration.CreateWriteLock())
