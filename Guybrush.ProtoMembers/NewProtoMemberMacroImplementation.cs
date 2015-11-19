@@ -35,6 +35,9 @@ namespace Guybrush.ProtoMembers
 
 		public override string EvaluateQuickResult([NotNull] IHotspotContext context)
 		{
+			if (tagArgument == null)
+				return string.Empty;
+
 			var macroUtil = languageManager.GetService<IMacroUtil, CSharpLanguage>();
 			if (macroUtil == null)
 				throw new InvalidOperationException("Could not get MacroUtil");
