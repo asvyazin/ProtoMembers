@@ -7,7 +7,6 @@ using JetBrains.Metadata.Reader.API;
 using JetBrains.Metadata.Reader.Impl;
 using JetBrains.ReSharper.Feature.Services.LiveTemplates.Hotspots;
 using JetBrains.ReSharper.Feature.Services.LiveTemplates.Macros;
-using JetBrains.ReSharper.LiveTemplates.CSharp.Macros;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -16,7 +15,8 @@ using JetBrains.Util.Logging;
 
 namespace Guybrush.ProtoMembers
 {
-	[MacroImplementation(Definition = typeof (NewProtoMemberMacroDefinition), ScopeProvider = typeof (CSharpImpl))]
+	[MacroImplementation(Definition = typeof (NewProtoMemberMacroDefinition),
+		ScopeProvider = typeof (NewProtoMemberMacroScopeProvider))]
 	public class NewProtoMemberMacroImplementation : SimpleMacroImplementation
 	{
 		private static readonly ILogger Log = Logger.GetLogger(typeof (NewProtoMemberMacroImplementation));
@@ -24,17 +24,20 @@ namespace Guybrush.ProtoMembers
 		private static readonly IClrTypeName ProtoMemberTypeName = new ClrTypeName("ProtoBuf.ProtoMemberAttribute");
 
 		private readonly ILanguageManager languageManager;
-		private readonly IMacroParameterValueNew tagArgument;
+		private readonly MacroParameterValueCollection arguments;
 
-		public NewProtoMemberMacroImplementation(ILanguageManager languageManager, [Optional] MacroParameterValueCollection arguments)
+		public NewProtoMemberMacroImplementation(ILanguageManager languageManager,
+			[Optional] MacroParameterValueCollection arguments)
 		{
-			Log.Info("Creating NewProtoMemberMacroImplementation, arguments: [{0}]", string.Join(", ", (arguments ?? new MacroParameterValueCollection()).Select(x => x.GetValue())));
+			Log.Info("Creating NewProtoMemberMacroImplementation, arguments: [{0}]",
+				string.Join(", ", (arguments ?? new MacroParameterValueCollection()).Select(x => x.GetValue())));
 			this.languageManager = languageManager;
-			tagArgument = arguments.OptionalFirstOrDefault();
+			this.arguments = arguments;
 		}
 
 		public override string EvaluateQuickResult([NotNull] IHotspotContext context)
 		{
+			var tagArgument = arguments.OptionalFirstOrDefault();
 			if (tagArgument == null)
 				return string.Empty;
 
