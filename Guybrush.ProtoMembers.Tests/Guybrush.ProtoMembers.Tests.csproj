@@ -142,6 +142,7 @@
   <ItemGroup>
     <Compile Include="NewProtoMemberMacroImplementationTest.cs" />
     <Compile Include="ProtoMembersTestEnvironmentAssembly.cs" />
+    <None Include="test\data\NewProtoMemberMacroImplementationTest\test2.cs" />
     <None Include="packages.config" />
     <None Include="test\data\NewProtoMemberMacroImplementationTest\test1.cs" />
   </ItemGroup>
@@ -154,6 +155,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="test\data\NewProtoMemberMacroImplementationTest\test1.cs.gold" />
+    <None Include="test\data\NewProtoMemberMacroImplementationTest\test2.cs.gold" />
     <None Include="test\data\nuget.config" />
   </ItemGroup>
   <ItemGroup>

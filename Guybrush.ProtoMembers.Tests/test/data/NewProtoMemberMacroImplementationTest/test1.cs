@@ -2,7 +2,7 @@ namespace Guybrush.ProtoMembers.Tests
 {
 	public class Test
 	{
-		[ProtoMember({selstart}${PARAMETER:$tag$}{caret}{selend}})]
+		[ProtoMember({selstart}0{caret}{selend}})]
 		public string Str { get; set; }
 	}
 }
