@@ -1,3 +1,5 @@
+using ProtoBuf;
+
 namespace Guybrush.ProtoMembers.Tests
 {
 	public class Test
